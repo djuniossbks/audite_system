@@ -6,6 +6,23 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DonneeController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+
+// Route temporaire sécurisée pour créer manuellement votre premier compte Administrateur
+Route::get('/creer-mon-admin', function () {
+    if (!User::where('email', 'djuniossbks@gmail.com')->exists()) {
+        User::create([
+            'name' => 'Djunioss',
+            'email' => 'djuniossbks@gmail.com',
+            // Va chercher automatiquement le mot de passe Aiven configuré sur Render
+            'password' => Hash::make(env('DB_PASSWORD')), 
+            'role' => 'admin', // Configure le rôle d'administrateur pour votre middleware
+        ]);
+        return "Compte administrateur créé avec succès ! Vous pouvez maintenant vous connecter.";
+    }
+    return "L'utilisateur existe déjà.";
+});
 
 Route::redirect('/', '/dashboard');
 
