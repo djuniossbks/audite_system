@@ -16,4 +16,4 @@ RUN composer install --no-dev --optimize-autoloader
 EXPOSE 10000
 
 # Une seule ligne CMD qui exécute la migration PUIS lance le serveur
-CMD php artisan migrate --force && php artisan tinker --execute="if(\\\App\\\Models\\\User::where('email', 'djuniossbks@gmail.com')->doesntExist()) { \\\App\\\Models\\\User::create(['name' => 'Djunioss', 'email' => 'djuniossbks@gmail.com', 'password' => \\\Illuminate\\\Support\\\Facades\\\Hash::make(env('DB_PASSWORD')), 'role' => 'admin']); }" && php artisan serve --host=0.0.0.0 --port=$PORT
+CMD php artisan migrate --force --seed && php artisan serve --host=0.0.0.0 --port=$PORT

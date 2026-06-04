@@ -6,6 +6,7 @@ use App\Models\Donnee;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -16,18 +17,22 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // Création de votre compte Administrateur principal basé sur la variable d'environnement
         $admin = User::factory()->admin()->create([
-            'name' => 'Admin',
-            'email' => 'admin@example.com',
-            'password' => 'password',
+            'name' => 'Djunioss',
+            'email' => 'djuniossbks@gmail.com',
+            // Utilise automatiquement le mot de passe Aiven configuré sur Render
+            'password' => Hash::make(env('DB_PASSWORD')), 
         ]);
 
+        // Un utilisateur de test standard (si vous souhaitez le garder)
         $utilisateur = User::factory()->create([
             'name' => 'Jean Dupont',
             'email' => 'jean@example.com',
-            'password' => 'password',
+            'password' => Hash::make('password'),
         ]);
 
+        // Génération des données de test liées aux comptes
         Donnee::factory(8)->create([
             'utilisateur_id' => $utilisateur->id,
         ]);
