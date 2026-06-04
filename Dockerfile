@@ -11,9 +11,10 @@ WORKDIR /app
 
 COPY . .
 
-RUN composer install --no-dev --optimize-autoloader
+# On nettoie le cache composer local avant de l'installer pour éviter la saturation mémoire
+RUN composer clear-cache && composer install --no-dev --optimize-autoloader --no-interaction
 
 EXPOSE 10000
 
-# Une seule ligne CMD qui exécute la migration PUIS lance le serveur
+# Lancement fluide : migrations + seeders automatiques + exécution de l'application
 CMD php artisan migrate --force --seed && php artisan serve --host=0.0.0.0 --port=$PORT
