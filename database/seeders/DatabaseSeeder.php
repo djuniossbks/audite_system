@@ -17,22 +17,24 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Création de votre compte Administrateur principal basé sur la variable d'environnement
-        $admin = User::factory()->admin()->create([
-            'name' => 'Djunioss',
-            'email' => 'djuniossbks@gmail.com',
-            // Utilise automatiquement le mot de passe Aiven configuré sur Render
-            'password' => Hash::make(env('DB_PASSWORD')), 
-        ]);
+        $admin = User::updateOrCreate(
+            ['email' => 'djuniossbks@gmail.com'],
+            [
+                'name' => 'Djunioss',
+                'password' => Hash::make(env('DB_PASSWORD')),
+                'role' => 'admin',
+            ]
+        );
 
-        // Un utilisateur de test standard (si vous souhaitez le garder)
-        $utilisateur = User::factory()->create([
-            'name' => 'Jean Dupont',
-            'email' => 'jean@example.com',
-            'password' => Hash::make('password'),
-        ]);
+        $utilisateur = User::firstOrCreate(
+            ['email' => 'jean@example.com'],
+            User::factory()->make([
+                'name' => 'Jean Dupont',
+                'email' => 'jean@example.com',
+                'role' => 'utilisateur',
+            ])->getAttributes()
+        );
 
-        // Génération des données de test liées aux comptes
         Donnee::factory(8)->create([
             'utilisateur_id' => $utilisateur->id,
         ]);
