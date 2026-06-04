@@ -14,5 +14,6 @@ COPY . .
 RUN composer install --no-dev --optimize-autoloader
 
 EXPOSE 10000
-CMD php artisan migrate --force && php-fpm
-CMD php artisan serve --host=0.0.0.0 --port=$PORT
+
+# Une seule ligne CMD qui exécute la migration PUIS lance le serveur
+CMD php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT
