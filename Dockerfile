@@ -17,4 +17,5 @@ RUN composer clear-cache && composer install --no-dev --optimize-autoloader --no
 EXPOSE 10000
 
 # Lancement fluide : migrations + seeders automatiques + exécution de l'application
-CMD php artisan migrate --force --seed && php artisan serve --host=0.0.0.0 --port=$PORT
+
+CMD php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT
